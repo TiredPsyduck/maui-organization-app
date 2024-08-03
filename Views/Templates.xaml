@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrganizationApp.ViewModels"
+             x:Class="OrganizationApp.Views.Templates">
+    <VerticalStackLayout Spacing="15" Padding="20">
+        <VerticalStackLayout x:Name="Stack" Spacing="15" Padding="20">
+            <Label Text="Templates" HorizontalOptions="Center" FontSize="20"/>
+        </VerticalStackLayout>
+        <Picker x:Name="Picker"/>
+        <HorizontalStackLayout Spacing="20">
+            <DatePicker x:Name="DueDate"
+                        MinimumDate="09/07/2024"
+                        MaximumDate="06/26/2024"/>
+            <Button x:Name="UseButton" Text="Use Template" Clicked="UseTemplate"/>
+            <Button x:Name="RemoveButton" Text="Remove Template" Clicked="RemoveTemplate"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

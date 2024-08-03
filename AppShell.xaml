@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="OrganizationApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:OrganizationApp"
+    xmlns:view="clr-namespace:OrganizationApp.Views">
+    <FlyoutItem Title="Create a new task">
+        <ShellContent ContentTemplate="{DataTemplate view:MainPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Current tasks">
+        <ShellContent ContentTemplate="{DataTemplate view:Tasks}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Templates">
+        <ShellContent ContentTemplate="{DataTemplate view:Templates}" />
+    </FlyoutItem>
+</Shell>

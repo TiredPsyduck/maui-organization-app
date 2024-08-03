@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrganizationApp.ViewModels"
+             x:Class="OrganizationApp.Views.Tasks">
+    <Grid Margin="20" RowDefinitions="*,auto,auto" RowSpacing="20">
+        <ScrollView Padding="20" VerticalOptions="Fill" Grid.Row="0">
+            <StackLayout x:Name="Stack" Spacing="20">
+                <Label Text="Tasks" HorizontalOptions="Center" FontSize="20"/>
+            </StackLayout>
+        </ScrollView>
+        <Picker x:Name="Picker" 
+                Title="Select the task you made progress in" Grid.Row="1"/>
+        <Button x:Name="Submit" Text="Submit" Clicked="OnSubmit" Grid.Row="2"/>
+    </Grid>
+</ContentPage>
