@@ -16,13 +16,10 @@ public partial class Tasks : ContentPage
 
     async private void OnSubmit(object sender, EventArgs e)
     {
-        if (Picker.SelectedItem == null)
-        {
-            return;
-        }
-        int selectedIndex = Int32.Parse(Picker.SelectedItem.ToString().Split(':', 2)[0]);
-        App.MainViewModel.AddProgress(selectedIndex);
-        await progressBars[selectedIndex].ProgressTo(App.MainViewModel.Tasks[selectedIndex].Progress, 500, Easing.Linear);
+        if (Picker.SelectedItem == null) return;
+        int selectedIndex = Int32.Parse(Picker.SelectedItem.ToString().Split(':', 2)[0]) - 1;
+        App.MainViewModel.AddProgress(selectedIndex + 1);
+        await progressBars[selectedIndex].ProgressTo(progressBars[selectedIndex].Progress + 0.5, 500, Easing.Linear);
         if (progressBars[selectedIndex].Progress == 1.0)
         {
             Stack.Remove(progressBars[selectedIndex]);
@@ -34,30 +31,16 @@ public partial class Tasks : ContentPage
 
     protected override void OnAppearing()
     {
-        for (int i = progressBars.Count; i < App.MainViewModel.Tasks.Count; i++)
+        var newTasks = App.MainViewModel.GetTasks(progressBars.Count);
+        for (int i = 0; i < newTasks.Count(); i++)
         {
-            var label = new Label
-            {
-                Text = App.MainViewModel.Tasks[i].Content
-            };
-            var progressBar = new ProgressBar
-            {
-                Progress = App.MainViewModel.Tasks[i].Progress,
-                ProgressColor = Colors.DarkGreen
-            };
-            var assignmentDates = new HorizontalStackLayout
-            {
-                Spacing = 20
-            };
-            assignmentDates.Add(new Label
-            {
-                Text = "Assigned Date: " + App.MainViewModel.Tasks[i].Date.ToString()
-            });
-            assignmentDates.Add(new Label
-            {
-                Text = "Due Date: " + App.MainViewModel.Tasks[i].DueDate.ToString()
-            });
-            Picker.Items.Add(i.ToString() + ":" + App.MainViewModel.Tasks[i].Content);
+            var element = newTasks.ElementAt(i);
+            var label = new Label { Text = element.Content };
+            var progressBar = new ProgressBar { Progress = element.Progress, ProgressColor = Colors.DarkGreen };
+            var assignmentDates = new HorizontalStackLayout { Spacing = 20 };
+            assignmentDates.Add(new Label { Text = $"Assigned Date: {element.Date.ToString()}" });
+            assignmentDates.Add(new Label { Text = $"Due Date: {element.DueDate.ToString()}" });
+            Picker.Items.Add(element.ID.ToString() + ":" + element.Content);
             Stack.Add(label);
             labels.Add(label);
             Stack.Add(assignmentDates);

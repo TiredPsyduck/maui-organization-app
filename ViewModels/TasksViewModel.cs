@@ -1,23 +1,32 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using SQLite;
 
 namespace OrganizationApp.ViewModels;
 
-public class TasksViewModel : ObservableObject
+public class TasksViewModel
 {
     public TemplatesViewModel TemplatesViewModel { get; set; } = new TemplatesViewModel();
-    public ObservableCollection<Models.Task> Tasks { get; set; } = new ObservableCollection<Models.Task>();
+    private SQLiteConnection conn;
 
-    public void AddTask(String Task, DateTime DueDate)
+    public TasksViewModel(string dbPath)
     {
-        Tasks.Add(new Models.Task(Task, DateTime.Today, 0.0, DueDate));
+        conn = new SQLiteConnection(dbPath);
+        conn.CreateTable<Models.Task>();
     }
 
-    public void AddProgress(int Index)
+    public void AddTask(string content, DateTime dueDate)
     {
-        if (Tasks[Index].Progress < 1)
-        {
-            Tasks[Index].Progress += 0.5;
-        }
+        conn.Insert(new Models.Task { Content = content, Date = DateTime.Today, Progress = 0.0, DueDate = dueDate });
+    }
+
+    public void AddProgress(int ID)
+    {
+        var task = (from t in conn.Table<Models.Task>() where t.ID == ID select t).FirstOrDefault();
+        if (task.Progress < 1) task.Progress += 0.5;
+        conn.Update(task);
+    }
+
+    public SQLite.TableQuery<Models.Task> GetTasks(int ID)
+    {
+        return from t in conn.Table<Models.Task>() where t.ID > ID select t;
     }
 }

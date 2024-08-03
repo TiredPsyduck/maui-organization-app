@@ -13,10 +13,7 @@ public partial class Templates : ContentPage
 
 	public void UseTemplate(object sender, EventArgs e)
 	{
-        if (Picker.SelectedItem == null)
-        {
-            return;
-        }
+        if (Picker.SelectedItem == null) return;
         int index = Int32.Parse(Picker.SelectedItem.ToString().Split(':', 2)[0]); ;
         string template = App.MainViewModel.TemplatesViewModel.Templates[index].Content;
         template += " " + App.MainViewModel.TemplatesViewModel.Templates[index].Index.ToString();
@@ -26,10 +23,7 @@ public partial class Templates : ContentPage
 
     public void RemoveTemplate(object sender, EventArgs e)
     {
-        if (Picker.SelectedItem == null)
-        {
-            return;
-        }
+        if (Picker.SelectedItem == null) return;
         int index = Int32.Parse(Picker.SelectedItem.ToString().Split(':', 2)[0]); ;
         Stack.Remove(labels[index]);
         Picker.Items.Remove(Picker.SelectedItem.ToString());
