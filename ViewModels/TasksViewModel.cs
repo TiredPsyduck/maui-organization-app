@@ -4,11 +4,12 @@ namespace OrganizationApp.ViewModels;
 
 public class TasksViewModel
 {
-    public TemplatesViewModel TemplatesViewModel { get; set; } = new TemplatesViewModel();
+    public TemplatesViewModel TemplatesViewModel { get; set; }
     private SQLiteConnection conn;
 
     public TasksViewModel(string dbPath)
     {
+        TemplatesViewModel = new TemplatesViewModel(dbPath);
         conn = new SQLiteConnection(dbPath);
         conn.CreateTable<Models.Task>();
     }

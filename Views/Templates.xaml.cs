@@ -15,32 +15,39 @@ public partial class Templates : ContentPage
 	{
         if (Picker.SelectedItem == null) return;
         int index = Int32.Parse(Picker.SelectedItem.ToString().Split(':', 2)[0]);
-        var templateModel = App.MainViewModel.TemplatesViewModel.Templates[index];
-        string template = $"{templateModel.Content} {templateModel.Index.ToString()}";
-        var label = (Label) labels[index].Children[1];
-        label.Text = (templateModel.Index + 1).ToString();
-        App.MainViewModel.AddTask(template, DueDate.Date);
-        App.MainViewModel.TemplatesViewModel.UpdateTemplate(index);
+        int number = App.MainViewModel.TemplatesViewModel.UseTemplate(index, DueDate.Date);
+        var label = (Label) labels[Picker.SelectedIndex].Children[1];
+        label.Text = number.ToString();
+        
 	}
 
     public void RemoveTemplate(object sender, EventArgs e)
     {
         if (Picker.SelectedItem == null) return;
         int index = Int32.Parse(Picker.SelectedItem.ToString().Split(':', 2)[0]);
-        Stack.Remove(labels[index]);
+        App.MainViewModel.TemplatesViewModel.DeleteTemplate(index);
+        Stack.Remove(labels[Picker.SelectedIndex]);
+        labels.RemoveAt(Picker.SelectedIndex);
         Picker.Items.Remove(Picker.SelectedItem.ToString());
     }
 
     protected override void OnAppearing()
     {
-        for (int i = labels.Count; i < App.MainViewModel.TemplatesViewModel.Templates.Count; i++)
+        for (int i = 0; i < labels.Count; i++)
         {
-            var template = new HorizontalStackLayout { Spacing = 20 };
-            template.Add(new Label { Text = App.MainViewModel.TemplatesViewModel.Templates[i].Content });
-            template.Add(new Label { Text = App.MainViewModel.TemplatesViewModel.Templates[i].Index.ToString() });
-            Stack.Add(template);
-            labels.Add(template);
-            Picker.Items.Add(i.ToString() + ":" + App.MainViewModel.TemplatesViewModel.Templates[i].Content);
+            Stack.Remove(labels[i]);
+            Picker.Items.Remove(Picker.Items[0]);
+        }
+        labels = new List<HorizontalStackLayout>();
+        List<Models.Template> templates = App.MainViewModel.TemplatesViewModel.GetTemplates();
+        foreach (Models.Template template in templates)
+        {
+            var newStack = new HorizontalStackLayout { Spacing = 20 };
+            newStack.Add(new Label { Text = template.Content });
+            newStack.Add(new Label { Text = template.Index.ToString() });
+            Stack.Add(newStack);
+            labels.Add(newStack);
+            Picker.Items.Add($"{template.ID}: {template.Content}");
         }
     }
 

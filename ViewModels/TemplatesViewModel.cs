@@ -1,19 +1,38 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using SQLite;
 
 namespace OrganizationApp.ViewModels;
 
-public class TemplatesViewModel : ObservableObject
+public class TemplatesViewModel
 {
-    public ObservableCollection<Models.Template> Templates { get; set; } = new ObservableCollection<Models.Template>();
-
-    public void AddTemplate(String Template)
+    private SQLiteConnection conn;
+    
+    public TemplatesViewModel(string dbPath)
     {
-        Templates.Add(new Models.Template(Template));
+        conn = new SQLiteConnection(dbPath);
+        conn.CreateTable<Models.Template>();
     }
 
-    public void UpdateTemplate(int Index)
+    public void AddTemplate(String Content)
     {
-        Templates[Index].Index++;
+        conn.Insert(new Models.Template { Content = Content, Index = 1 });
+    }
+
+    public int UseTemplate(int ID, DateTime dueDate)
+    {
+        Models.Template template = (from t in conn.Table<Models.Template>() where t.ID == ID select t).FirstOrDefault();
+        App.MainViewModel.AddTask($"{template.Content} {template.Index}", dueDate);
+        template.Index++;
+        conn.Update(template);
+        return template.Index;
+    }
+
+    public void DeleteTemplate(int ID)
+    {
+        conn.Delete<Models.Template>(ID);
+    }
+
+    public List<Models.Template> GetTemplates()
+    {
+        return conn.Table<Models.Template>().ToList();
     }
 }

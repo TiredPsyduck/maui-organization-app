@@ -3,24 +3,22 @@ namespace OrganizationApp.Views;
 public partial class Tasks : ContentPage
 {
     public List<VerticalStackLayout> tasks { get; set; }
-    public List<ProgressBar> progressBars { get; set; }
 
 	public Tasks()
 	{
 		InitializeComponent();
         tasks = new List<VerticalStackLayout>();
-        progressBars = new List<ProgressBar>();
     }
 
     async private void OnSubmit(object sender, EventArgs e)
     {
         if (Picker.SelectedItem == null) return;
         App.MainViewModel.AddProgress(Int32.Parse(Picker.SelectedItem.ToString().Split(':', 2)[0]));
-        await progressBars[Picker.SelectedIndex].ProgressTo(progressBars[Picker.SelectedIndex].Progress + 0.5, 500, Easing.Linear);
-        if (progressBars[Picker.SelectedIndex].Progress == 1.0)
+        ProgressBar progressBar = (ProgressBar) tasks.ElementAt(Picker.SelectedIndex).Children[1];
+        await progressBar.ProgressTo(progressBar.Progress + 0.5, 500, Easing.Linear);
+        if (progressBar.Progress == 1.0)
         {
             Stack.Remove(tasks[Picker.SelectedIndex]);
-            progressBars.RemoveAt(Picker.SelectedIndex);
             tasks.RemoveAt(Picker.SelectedIndex);
             Picker.Items.Remove(Picker.SelectedItem.ToString());
         }
@@ -40,28 +38,24 @@ public partial class Tasks : ContentPage
 
     protected override void OnAppearing()
     {
-        for (int i = 0; i < progressBars.Count; i++)
+        for (int i = 0; i < tasks.Count; i++)
         {
             Stack.Remove(tasks[i]);
             Picker.Items.Remove(Picker.Items[0]);
         }
-        progressBars = new List<ProgressBar>();
         tasks = new List<VerticalStackLayout>();
-        var newTasks = App.MainViewModel.GetTasks();
-        for (int i = 0; i < newTasks.Count(); i++)
+        var newTasks = App.MainViewModel.GetTasks().ToList();
+        foreach (Models.Task task in newTasks)
         {
-            var element = newTasks.ElementAt(i);
-            var newStack = new VerticalStackLayout { Spacing = 10 };
-            newStack.Add(new Label { Text = element.Content });
-            var progressBar = new ProgressBar { Progress = element.Progress, ProgressColor = Colors.DarkGreen };
-            newStack.Add(progressBar);
-            var assignmentDates = new HorizontalStackLayout { Spacing = 20 };
-            assignmentDates.Add(new Label { Text = $"Assigned Date: {element.Date.ToString("MM/dd/yyyy")}" });
-            assignmentDates.Add(new Label { Text = $"Due Date: {element.DueDate.ToString("MM/dd/yyyy")}" });
+            VerticalStackLayout newStack = new VerticalStackLayout { Spacing = 10 };
+            newStack.Add(new Label { Text = task.Content });
+            newStack.Add(new ProgressBar { Progress = task.Progress, ProgressColor = Colors.DarkGreen });
+            HorizontalStackLayout assignmentDates = new HorizontalStackLayout { Spacing = 20 };
+            assignmentDates.Add(new Label { Text = $"Assigned Date: {task.Date.ToString("MM/dd/yyyy")}" });
+            assignmentDates.Add(new Label { Text = $"Due Date: {task.DueDate.ToString("MM/dd/yyyy")}" });
             newStack.Add(assignmentDates);
-            Picker.Items.Add(element.ID.ToString() + ":" + element.Content);
+            Picker.Items.Add($"{task.ID.ToString()}: {task.Content}");
             Stack.Add(newStack);
-            progressBars.Add(progressBar);
             tasks.Add(newStack);
         }
     }
