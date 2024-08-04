@@ -20,13 +20,25 @@ public class TasksViewModel
 
     public void AddProgress(int ID)
     {
-        var task = (from t in conn.Table<Models.Task>() where t.ID == ID select t).FirstOrDefault();
+        Models.Task task = (from t in conn.Table<Models.Task>() where t.ID == ID select t).FirstOrDefault();
         if (task.Progress < 1) task.Progress += 0.5;
         conn.Update(task);
     }
 
     public SQLite.TableQuery<Models.Task> GetTasks(int ID)
     {
-        return from t in conn.Table<Models.Task>() where t.ID > ID select t;
+        return from t in conn.Table<Models.Task>() where t.ID > ID && t.Progress != 1.0 select t;
+    }
+
+    public SortedDictionary<DateTime, List<Models.Task>> SortTasksByDate(int index)
+    {
+        List<DateTime> allTasks = (from t in conn.Table<Models.Task>() select t.Date).Distinct().OrderBy(date => date).ToList();
+        SortedDictionary<DateTime, List<Models.Task>> sortedTasks = new();
+        foreach (DateTime date in allTasks.GetRange(index, allTasks.Count - index))
+        {
+            List<Models.Task> tasksOnDate = (from t in conn.Table<Models.Task>() where t.Date == date select t).ToList();
+            sortedTasks.Add(date, tasksOnDate);
+        }
+        return sortedTasks;
     }
 }

@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OrganizationApp.ViewModels"
-             x:Class="OrganizationApp.Views.MainPage"
-             x:DataType="vm:TasksViewModel">
+             x:Class="OrganizationApp.Views.MainPage">
     <VerticalStackLayout Spacing="15" Padding="20">
         <Label x:Name="Label" Text="Enter a task" FontSize="20" HorizontalOptions="Center"/>
         <Entry x:Name="Task"/>
