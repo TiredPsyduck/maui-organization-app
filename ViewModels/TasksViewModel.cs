@@ -25,9 +25,9 @@ public class TasksViewModel
         conn.Update(task);
     }
 
-    public SQLite.TableQuery<Models.Task> GetTasks(int ID)
+    public SQLite.TableQuery<Models.Task> GetTasks()
     {
-        return from t in conn.Table<Models.Task>() where t.ID > ID && t.Progress != 1.0 select t;
+        return from t in conn.Table<Models.Task>() where t.Progress != 1.0 select t;
     }
 
     public SortedDictionary<DateTime, List<Models.Task>> SortTasksByDate(int index)

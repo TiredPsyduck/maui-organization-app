@@ -16,12 +16,12 @@ public partial class Archive : ContentPage
 		foreach (var pair in sortedTask)
 		{
 			numTasks++;
-			Label label = new Label { Text = pair.Key.ToString() };
+			Label label = new Label { Text = pair.Key.ToString("MM/dd/yyyy") };
 			var newStack = new VerticalStackLayout() { Spacing = 5 };
 			foreach (var task in pair.Value)
 			{
 				newStack.Add(new Label { Text = task.Content });
-				newStack.Add(new Label { Text = task.DueDate.ToString() });
+				newStack.Add(new Label { Text = task.DueDate.ToString("MM/dd/yyyy") });
 			}
 			Stack.Add(label);
 			Stack.Add(newStack);
