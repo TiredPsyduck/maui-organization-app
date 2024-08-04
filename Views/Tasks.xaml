@@ -11,6 +11,6 @@
         </ScrollView>
         <Picker x:Name="Picker" 
                 Title="Select the task you made progress in" Grid.Row="1"/>
-        <Button x:Name="Submit" Text="Submit" Clicked="OnSubmit" Grid.Row="2"/>
+        <Button x:Name="Submit" Text="Submit" Clicked="OnSubmit" Grid.Row="2" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
     </Grid>
 </ContentPage>

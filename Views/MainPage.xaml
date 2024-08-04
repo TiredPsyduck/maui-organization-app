@@ -6,12 +6,12 @@
     <VerticalStackLayout Spacing="15" Padding="20">
         <Label x:Name="Label" Text="Enter a task" FontSize="20" HorizontalOptions="Center"/>
         <Entry x:Name="Task"/>
-        <DatePicker x:Name="DueDate"
-                    MinimumDate="09/07/2024"
-                    MaximumDate="06/26/2024"/>
         <HorizontalStackLayout Spacing="20">
-            <Button x:Name="Submit" Text="Submit" Clicked="OnSubmit"/>
-            <Button x:Name="Template" Text="Add Template" Clicked="AddTemplate"/>
+            <DatePicker x:Name="DueDate"
+                        MinimumDate="09/07/2024"
+                        MaximumDate="06/26/2024"/>
+            <Button x:Name="Submit" Text="Submit" Clicked="OnSubmit" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
+            <Button x:Name="Template" Text="Add Template" Clicked="AddTemplate" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

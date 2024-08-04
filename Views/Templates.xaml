@@ -12,8 +12,8 @@
             <DatePicker x:Name="DueDate"
                         MinimumDate="09/07/2024"
                         MaximumDate="06/26/2024"/>
-            <Button x:Name="UseButton" Text="Use Template" Clicked="UseTemplate"/>
-            <Button x:Name="RemoveButton" Text="Remove Template" Clicked="RemoveTemplate"/>
+            <Button x:Name="UseButton" Text="Use Template" Clicked="UseTemplate" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
+            <Button x:Name="RemoveButton" Text="Remove Template" Clicked="RemoveTemplate" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

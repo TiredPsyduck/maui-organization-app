@@ -16,7 +16,7 @@ public partial class Archive : ContentPage
 		foreach (var pair in sortedTask)
 		{
 			numTasks++;
-			Label label = new Label { Text = pair.Key.ToString("MM/dd/yyyy") };
+			Label label = new Label { Text = pair.Key.ToString("MM/dd/yyyy"), HorizontalOptions = LayoutOptions.Center };
 			var newStack = new VerticalStackLayout() { Spacing = 5 };
 			foreach (var task in pair.Value)
 			{

@@ -22,6 +22,18 @@ public partial class MainPage : ContentPage
             Task.Text = "Please enter a valid string";
         }
     }
+    
+    private void OnButtonPressed(object sender, EventArgs e)
+    {
+        Button btnsender = (Button)sender;
+        btnsender.BackgroundColor = Colors.Green;
+    }
+
+    private void OnButtonReleased(object sender, EventArgs e)
+    {
+        Button btnsender = (Button)sender; 
+        btnsender.BackgroundColor = Color.FromArgb("#512BD4");
+    }
 
     private void AddTemplate(object sender, EventArgs e)
     {
