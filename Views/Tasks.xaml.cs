@@ -24,18 +24,6 @@ public partial class Tasks : ContentPage
         }
     }
 
-    private void OnButtonPressed(object sender, EventArgs e)
-    {
-        Button btnsender = (Button)sender;
-        btnsender.BackgroundColor = Colors.Green;
-    }
-
-    private void OnButtonReleased(object sender, EventArgs e)
-    {
-        Button btnsender = (Button)sender;
-        btnsender.BackgroundColor = Color.FromArgb("#512BD4");
-    }
-
     protected override void OnAppearing()
     {
         for (int i = 0; i < tasks.Count; i++)
@@ -44,7 +32,7 @@ public partial class Tasks : ContentPage
             Picker.Items.Remove(Picker.Items[0]);
         }
         tasks = new List<VerticalStackLayout>();
-        var newTasks = App.MainViewModel.GetTasks().ToList();
+        var newTasks = App.MainViewModel.GetTasks();
         foreach (Models.Task task in newTasks)
         {
             VerticalStackLayout newStack = new VerticalStackLayout { Spacing = 10 };
@@ -58,5 +46,17 @@ public partial class Tasks : ContentPage
             Stack.Add(newStack);
             tasks.Add(newStack);
         }
+    }
+
+    private void OnButtonPressed(object sender, EventArgs e)
+    {
+        Button btnsender = (Button)sender;
+        btnsender.BackgroundColor = Colors.Green;
+    }
+
+    private void OnButtonReleased(object sender, EventArgs e)
+    {
+        Button btnsender = (Button)sender;
+        btnsender.BackgroundColor = Color.FromArgb("#512BD4");
     }
 }

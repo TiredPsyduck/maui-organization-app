@@ -18,7 +18,6 @@ public partial class Templates : ContentPage
         int number = App.MainViewModel.TemplatesViewModel.UseTemplate(index, DueDate.Date);
         var label = (Label) labels[Picker.SelectedIndex].Children[1];
         label.Text = number.ToString();
-        
 	}
 
     public void RemoveTemplate(object sender, EventArgs e)

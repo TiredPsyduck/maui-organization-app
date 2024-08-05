@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OrganizationApp.ViewModels"
              x:Class="OrganizationApp.Views.Archive">
-    <ScrollView Padding="20" VerticalOptions="Fill" Grid.Row="0">
-        <StackLayout x:Name="Stack" Spacing="20">
+    <ScrollView Margin="20" VerticalOptions="Fill" Grid.Row="0">
+        <StackLayout x:Name="Stack" Spacing="15">
             <Label Text="Archive" HorizontalOptions="Center" FontSize="20"/>
         </StackLayout>
     </ScrollView>

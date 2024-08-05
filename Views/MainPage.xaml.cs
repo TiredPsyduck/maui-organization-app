@@ -10,10 +10,18 @@ public partial class MainPage : ContentPage
 
     private void OnSubmit(object sender, EventArgs e)
     {
+        Button btnsender = (Button)sender;
         string enteredString = Task.Text;
         if (!string.IsNullOrEmpty(enteredString))
         {
-            App.MainViewModel.AddTask(enteredString, DueDate.Date);
+            if (btnsender.Text == "Submit") 
+            {
+                App.MainViewModel.AddTask(enteredString, DueDate.Date);
+            }
+            else
+            {
+                App.MainViewModel.TemplatesViewModel.AddTemplate(enteredString);
+            }
             Task.Text = "";
             DueDate.Date = DateTime.Today.AddDays(1);
         }
@@ -33,19 +41,5 @@ public partial class MainPage : ContentPage
     {
         Button btnsender = (Button)sender; 
         btnsender.BackgroundColor = Color.FromArgb("#512BD4");
-    }
-
-    private void AddTemplate(object sender, EventArgs e)
-    {
-        string enteredString = Task.Text;
-        if (!string.IsNullOrEmpty(enteredString))
-        {
-            App.MainViewModel.TemplatesViewModel.AddTemplate(enteredString);
-            Task.Text = "";
-        }
-        else
-        {
-            Task.Text = "Please enter a valid string";
-        }
     }
 }

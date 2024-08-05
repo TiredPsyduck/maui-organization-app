@@ -3,14 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OrganizationApp.ViewModels"
              x:Class="OrganizationApp.Views.Tasks">
-    <Grid Margin="20" RowDefinitions="*,auto,auto" RowSpacing="20">
-        <ScrollView Padding="20" VerticalOptions="Fill" Grid.Row="0">
-            <StackLayout x:Name="Stack" Spacing="20">
-                <Label Text="Tasks" HorizontalOptions="Center" FontSize="20"/>
-            </StackLayout>
+    <Grid Margin="20" RowDefinitions="auto,*,auto,auto" RowSpacing="15">
+        <Label Text="Tasks" HorizontalOptions="Center" FontSize="20" Grid.Row="0"/>
+        <ScrollView VerticalOptions="Fill" Grid.Row="1">
+            <StackLayout x:Name="Stack" Spacing="15"/>
         </ScrollView>
-        <Picker x:Name="Picker" 
-                Title="Select the task you made progress in" Grid.Row="1"/>
-        <Button x:Name="Submit" Text="Submit" Clicked="OnSubmit" Grid.Row="2" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
+        <Picker x:Name="Picker" Grid.Row="2"/>
+        <Button Text="Submit" Clicked="OnSubmit" Grid.Row="3" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
     </Grid>
 </ContentPage>

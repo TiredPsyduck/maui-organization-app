@@ -13,18 +13,30 @@ public partial class Archive : ContentPage
 	protected override void OnAppearing()
 	{
 		SortedDictionary<DateTime, List<Models.Task>> sortedTask = App.MainViewModel.SortTasksByDate(numTasks);
-		foreach (var pair in sortedTask)
+        if (Stack.Children.Count > 1) for (int i = 0; i < 2; i++) Stack.RemoveAt(Stack.Children.Count - 1);
+        foreach (KeyValuePair<DateTime, List<Models.Task>> pair in sortedTask)
 		{
-			numTasks++;
-			Label label = new Label { Text = pair.Key.ToString("MM/dd/yyyy"), HorizontalOptions = LayoutOptions.Center };
-			var newStack = new VerticalStackLayout() { Spacing = 5 };
-			foreach (var task in pair.Value)
+            Label label = new Label
 			{
-				newStack.Add(new Label { Text = task.Content });
-				newStack.Add(new Label { Text = task.DueDate.ToString("MM/dd/yyyy") });
+				Text = pair.Key.ToString("MM/dd/yyyy"),
+				HorizontalTextAlignment = TextAlignment.Center,
+				HorizontalOptions = LayoutOptions.Fill,
+				BackgroundColor = Colors.AliceBlue,
+				Padding = 10
+			};
+            VerticalStackLayout newStack = new VerticalStackLayout() { Spacing = 10, Margin = 10 };
+			foreach (Models.Task task in pair.Value)
+			{
+				numTasks++;
+                FlexLayout flexLayout = new FlexLayout() { Direction = Microsoft.Maui.Layouts.FlexDirection.Row };
+                flexLayout.Add(new Label { Text = task.Content });
+                flexLayout.Add(new Label { Text = task.DueDate.ToString("MM/dd/yyyy") });
+				flexLayout.SetGrow(flexLayout.Children[0], 1);
+				newStack.Add(flexLayout);
 			}
 			Stack.Add(label);
 			Stack.Add(newStack);
 		}
+		numTasks -= ((VerticalStackLayout)Stack.Children[Stack.Children.Count - 1]).Children.Count;
     }
 }

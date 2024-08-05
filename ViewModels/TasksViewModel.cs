@@ -26,18 +26,19 @@ public class TasksViewModel
         conn.Update(task);
     }
 
-    public SQLite.TableQuery<Models.Task> GetTasks()
+    public List<Models.Task> GetTasks()
     {
-        return from t in conn.Table<Models.Task>() where t.Progress != 1.0 select t;
+        var taskList = from t in conn.Table<Models.Task>() where t.Progress != 1.0 select t;
+        return taskList.OrderBy(task => task.Date).ThenBy(task => task.DueDate).ToList();
     }
 
     public SortedDictionary<DateTime, List<Models.Task>> SortTasksByDate(int index)
     {
-        List<DateTime> allTasks = (from t in conn.Table<Models.Task>() select t.Date).Distinct().OrderBy(date => date).ToList();
+        List<DateTime> allTasks = (from t in conn.Table<Models.Task>() where t.ID > index select t.Date).Distinct().OrderBy(date => date).ToList();
         SortedDictionary<DateTime, List<Models.Task>> sortedTasks = new();
-        foreach (DateTime date in allTasks.GetRange(index, allTasks.Count - index))
+        foreach (DateTime date in allTasks)
         {
-            List<Models.Task> tasksOnDate = (from t in conn.Table<Models.Task>() where t.Date == date select t).ToList();
+            List<Models.Task> tasksOnDate = (from t in conn.Table<Models.Task>() where t.Date == date select t).OrderBy(task => task.DueDate).ToList();
             sortedTasks.Add(date, tasksOnDate);
         }
         return sortedTasks;

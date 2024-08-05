@@ -3,15 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OrganizationApp.ViewModels"
              x:Class="OrganizationApp.Views.MainPage">
-    <VerticalStackLayout Spacing="15" Padding="20">
+    <VerticalStackLayout Spacing="15" Margin="20">
         <Label x:Name="Label" Text="Enter a task" FontSize="20" HorizontalOptions="Center"/>
         <Entry x:Name="Task"/>
-        <HorizontalStackLayout Spacing="20">
-            <DatePicker x:Name="DueDate"
-                        MinimumDate="09/07/2024"
-                        MaximumDate="06/26/2024"/>
-            <Button x:Name="Submit" Text="Submit" Clicked="OnSubmit" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
-            <Button x:Name="Template" Text="Add Template" Clicked="AddTemplate" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
+        <HorizontalStackLayout Spacing="15">
+            <DatePicker x:Name="DueDate" MinimumDate="09/07/2024" MaximumDate="06/26/2024"/>
+            <Button Text="Submit" Clicked="OnSubmit" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
+            <Button Text="Add Template" Clicked="OnSubmit" Released="OnButtonReleased" Pressed="OnButtonPressed"/>
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
